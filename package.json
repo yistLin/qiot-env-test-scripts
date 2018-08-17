@@ -1,0 +1,29 @@
+{
+  "name": "qiot-env-test-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yistLin/qiot-env-test-scripts.git"
+  },
+  "keywords": [
+    "QIoT",
+    "testing",
+    "nodejs"
+  ],
+  "author": "Yist Lin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yistLin/qiot-env-test-scripts/issues"
+  },
+  "homepage": "https://github.com/yistLin/qiot-env-test-scripts#readme",
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
