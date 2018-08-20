@@ -1,15 +1,11 @@
 var Apis = require("./apis");
+var fs = require("fs");
 
 // Configurations
-const config = {
-  nasIP: "http://172.17.28.95",
-  nasPort: 8080,
-  adminUsername: "admin",
-  adminPassword: "qnap1234",
-  appConfigPath: "./rpi_indonisia_2018.json",
-  numberOfUsers: 3
-};
-var apis = new Apis(config.nasIP, config.nasPort);
+const config = require("./config");
+var apis = new Apis(config.nasIp, config.nasPort);
+
+var userAndPasswords = new Array();
 
 Number.prototype.pad = function(size) {
   var s = String(this);
@@ -28,6 +24,7 @@ function createUsersImportAppsRecursively(adminAccessToken, i) {
         .then(() => apis.createUser(adminAccessToken, newUsername))
         .then(password => {
           console.log("\n  New user created:", newUsername, "/", password);
+          userAndPasswords.push({ username: newUsername, password: password });
           return apis.loginUser(newUsername, password);
         })
         .then(accessToken => {
@@ -46,6 +43,12 @@ function createUsersImportAppsRecursively(adminAccessToken, i) {
   });
 }
 
-apis.loginUser(config.adminUsername, config.adminPassword).then(adminAccessToken => {
-  createUsersImportAppsRecursively(adminAccessToken, config.numberOfUsers);
-});
+apis
+  .loginUser(config.adminUsername, config.adminPassword)
+  .then(adminAccessToken => createUsersImportAppsRecursively(adminAccessToken, config.numberOfUsers))
+  .then(() => {
+    if (fs.existsSync(config.userInfoJsonPath)) {
+      fs.unlinkSync(config.userInfoJsonPath);
+    }
+    fs.writeFileSync(config.userInfoJsonPath, JSON.stringify(userAndPasswords));
+  });

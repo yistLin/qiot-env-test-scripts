@@ -93,20 +93,34 @@ module.exports = function(nasIP, nasPort) {
       .catch(err => console.log("Error:", err));
   };
 
+  this.getMQTTConnectionInfo = function(accessToken, thingId) {
+    var options = {
+      method: "GET",
+      uri: nasUrl + "/qiotapp/v1/things/" + thingId + "/mqttconnect/",
+      headers: {
+        "Access-Token": accessToken
+      },
+      json: true // Automatically stringifies the body to JSON
+    };
+    return rp(options)
+      .then(res => res.result)
+      .catch(err => console.log("Error:", err));
+  };
+
   this.publishMessage = function(topic, thingId, accessToken, message) {
     var options = {
       method: "PUT",
       uri: nasIP + ":23000/resources/" + topic,
       headers: {
         "Content-Type": "application/json",
-        "RequesterId": thingId,
+        RequesterId: thingId,
         "Access-Token": accessToken
       },
       body: message,
       json: true // Automatically stringifies the body to JSON
     };
     return rp(options)
-      .then(res => console.log('message:', message, ', published to', topic))
+      .then(res => console.log("message:", message, ", published to", topic))
       .catch(err => console.log("Error:", err));
   };
 };

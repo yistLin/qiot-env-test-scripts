@@ -22,8 +22,12 @@
   },
   "homepage": "https://github.com/yistLin/qiot-env-test-scripts#readme",
   "dependencies": {
+    "argparse": "^1.0.10",
     "btoa": "^1.2.1",
+    "fs": "0.0.1-security",
+    "mqtt": "^2.18.3",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "sleep-promise": "^8.0.1"
   }
 }
