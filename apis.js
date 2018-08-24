@@ -123,4 +123,23 @@ module.exports = function(nasIP, nasPort) {
       .then(res => console.log("message:", message, ", published to", topic))
       .catch(err => console.log("Error:", err));
   };
+
+  this.changePassword = function(accessToken, oldPassword, newPassword) {
+    var options = {
+      method: "POST",
+      uri: nasUrl + "/qiotapp/v1/users/password/change",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Token": accessToken
+      },
+      body: {
+        oldPassword: btoa(oldPassword),
+        newPassword: btoa(newPassword)
+      },
+      json: true // Automatically stringifies the body to JSON
+    };
+    return rp(options)
+      .then(res => res.result)
+      .catch(err => console.log("Error:", err));
+  };
 };
